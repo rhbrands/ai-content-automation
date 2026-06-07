@@ -1,73 +1,82 @@
-# AI Content Automation System
+# AI Content Automation
 
-Automated workflow: Idea → Script → AI Voice → Video → Upload
+AI Content Automation is a modular Python workflow for generating social media-ready video content from a topic prompt.
 
-## Setup Instructions
+The pipeline includes:
+- script generation via Google Gemini free tier
+- fallback Hugging Face generation when Gemini is unavailable
+- text-to-speech audio rendering
+- image-based video creation with placeholder support
+
+## Getting Started
 
 ### 1. Clone the repository
-\`\`\`bash
+```bash
 git clone https://github.com/YOUR_USERNAME/ai-content-automation.git
 cd ai-content-automation
-\`\`\`
+```
 
-### 2. Create virtual environment
-\`\`\`bash
+### 2. Create and activate the virtual environment
+```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-\`\`\`
+# macOS / Linux
+source venv/bin/activate
+# Windows PowerShell
+venv\Scripts\Activate.ps1
+```
 
 ### 3. Install dependencies
-\`\`\`bash
+```bash
 pip install -r requirements.txt
-\`\`\`
+```
 
-### 4. Set up API keys
-Copy `.env.example` to `.env`:
-\`\`\`bash
-cp .env.example .env
-\`\`\`
+### 4. Configure environment variables
+Copy the example environment file and update the values:
+```bash
+copy .env.example .env
+```
 
-Then fill in your API keys:
-- **Gemini API**: Get from [Google AI Studio](https://aistudio.google.com/app/apikey)
-- **YouTube API**: Set up from [Google Cloud Console](https://console.cloud.google.com)
+Edit `.env` and provide:
+- `GEMINI_API_KEY` for Google Gemini free tier
+- `HUGGINGFACE_API_KEY` for Hugging Face fallback (optional)
+- `GOOGLE_TTS_CREDENTIALS` for Google Cloud Text-to-Speech
+- `YOUTUBE_CREDENTIALS` and `YOUTUBE_CHANNEL_ID` if uploading videos
 
-### 5. Add stock images
-Place images in `assets/stock_images/` for video generation.
+### 5. Add stock images (optional)
+Add image assets to `assets/stock_images/` for video generation. If no images are available, the project will generate a placeholder video.
 
 ### 6. Run the automation
-\`\`\`bash
+```bash
 python main.py
-\`\`\`
+```
 
 ## Project Structure
-\`\`\`
+```text
 ai-content-automation/
-├── scripts/              # Core automation modules
+├── assets/              # Static assets and stock images
+├── scripts/             # Core workflow modules
 │   ├── script_generator.py
 │   ├── text_to_speech.py
 │   └── video_creator.py
-├── utils/               # Utilities
+├── utils/               # Utility modules
 │   └── logger.py
-├── assets/              # Static files
-│   └── stock_images/
-├── main.py              # Main workflow
-├── config.py            # Configuration
-├── requirements.txt     # Dependencies
-└── .env.example         # API key template
-\`\`\`
+├── config.py            # Project configuration and paths
+├── main.py              # Main orchestration script
+├── requirements.txt     # Python dependencies
+├── .env.example         # Environment variable template
+└── README.md            # Project documentation
+```
 
 ## Features
-- ✅ AI script generation (Google Gemini)
-- ✅ Text-to-speech conversion (pyttsx3)
-- ✅ Video creation with images
-- ✅ Logging system
-- ✅ Modular architecture
+- free-tier Gemini script generation
+- Hugging Face fallback for resilience
+- Google Cloud Text-to-Speech audio creation
+- automated video assembly from image assets or placeholder backgrounds
+- structured logging and modular architecture
 
-## Next Steps
-- [ ] YouTube API integration
-- [ ] Instagram/Facebook automation
-- [ ] Scheduled daily runs
-- [ ] Make.com/n8n integration
+## Notes
+- YouTube upload integration is not active by default.
+- Make sure API keys are valid and `GOOGLE_TTS_CREDENTIALS` points to a valid JSON key file.
 
 ## License
 MIT
